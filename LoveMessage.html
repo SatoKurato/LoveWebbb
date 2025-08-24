@@ -101,6 +101,7 @@
       const fan3ImgSrc = 'fan3.jpg';
       const fan4ImgSrc = 'fan4.jpg';
       const fan5ImgSrc = 'fan5.jpg';
+      const fan6ImgSrc = 'fan6.jpg';
       const fanCount = 6;
       const fanDiv = document.getElementById('fan-images');
       fanDiv.style.position = 'absolute';
@@ -184,6 +185,15 @@
         img5.style.pointerEvents = 'none';
         fanDiv.appendChild(img5);
         setTimeout(() => animateFanFlyIn(img5), i*0);
+      }
+      // fan6 images
+      for(let i=0;i<fanCount;i++){
+        const img6 = document.createElement('img');
+        img6.src = fan6ImgSrc;
+        img6.className = 'fan-scatter';
+        img6.style.pointerEvents = 'none';
+        fanDiv.appendChild(img6);
+        setTimeout(() => animateFanFlyIn(img6), i*0);
       }
     // Animate hearts scattered and moving
     const heartList = ['💖','💗','💓','💞','💝','💘','💟','❤️','🩷','💕'];
