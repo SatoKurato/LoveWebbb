@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You've Got a Letter</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="bg-pink"></div>
+  <div class="falling-hearts" id="falling-hearts"></div>
+  <div class="letter-container">
+    <div class="hearts-row">
+      <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
+    </div>
+    <img src="envelope1.png" alt="Envelope" class="letter-img">
+    <div class="letter-msg">KNOCK KNOCK!<br>YOU'VE GOT A LETTER JUST FOR YOU</div>
+    <button class="open-btn" onclick="window.location.href='password.html'">💌 Click to open</button>
+  <script>
+  // Make envelope always on top
+  document.querySelector('.letter-container').style.position = 'relative';
+  document.querySelector('.letter-container').style.zIndex = 10;
+    // Animated soft pink background
+    document.body.style.position = 'relative';
+    document.querySelector('.bg-pink').style.position = 'fixed';
+    document.querySelector('.bg-pink').style.top = 0;
+    document.querySelector('.bg-pink').style.left = 0;
+    document.querySelector('.bg-pink').style.width = '100vw';
+    document.querySelector('.bg-pink').style.height = '100vh';
+    document.querySelector('.bg-pink').style.zIndex = 0;
+    document.querySelector('.bg-pink').style.background = 'linear-gradient(180deg,#ffe4ec 0%,#fff0f6 100%)';
+    document.querySelector('.bg-pink').style.pointerEvents = 'none';
+
+    // Falling hearts animation
+    const heartColors = ['#ff69b4','#ffb6c1','#ff85a2','#ff4f81','#ffb6b9'];
+    const heartCount = 18;
+    const heartsDiv = document.getElementById('falling-hearts');
+    heartsDiv.style.position = 'fixed';
+    heartsDiv.style.top = 0;
+    heartsDiv.style.left = 0;
+    heartsDiv.style.width = '100vw';
+    heartsDiv.style.height = '100vh';
+    heartsDiv.style.zIndex = 1;
+    heartsDiv.style.pointerEvents = 'none';
+    function createHeart(i) {
+      const span = document.createElement('span');
+      span.textContent = '❤️';
+      span.style.position = 'absolute';
+      span.style.left = Math.random()*98 + 'vw';
+      span.style.top = '-40px';
+      span.style.fontSize = (Math.random()*1.2+1.2) + 'rem';
+      span.style.opacity = Math.random()*0.5+0.5;
+      span.style.filter = `drop-shadow(0 2px 8px ${heartColors[i%heartColors.length]})`;
+      heartsDiv.appendChild(span);
+      animateHeart(span);
+    }
+    function animateHeart(el) {
+      const duration = Math.random()*2+3.5;
+      el.animate([
+        { transform: `translateY(0)`, opacity: el.style.opacity },
+        { transform: `translateY(${window.innerHeight+60}px)`, opacity: 0.2 }
+      ], {
+        duration: duration*1000,
+        iterations: 1,
+        easing: 'ease-in',
+      });
+      setTimeout(()=>{
+        el.style.left = Math.random()*98 + 'vw';
+        el.style.top = '-40px';
+        el.style.fontSize = (Math.random()*1.2+1.2) + 'rem';
+        el.style.opacity = Math.random()*0.5+0.5;
+        animateHeart(el);
+      }, duration*1000);
+    }
+    for(let i=0;i<heartCount;i++){
+      createHeart(i);
+    }
+  </script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Message</title>
+  <link rel="stylesheet" href="LoveMessage.css">
+</head>
+<body>
+  <div class="bg">
+    <canvas id="star-bg"></canvas>
+    <div class="fan-images" id="fan-images"></div>
+    <div class="hearts" id="hearts"></div>
+    <div class="messages" id="messages"></div>
+  </div>
+  <script>
+  // Starry background
+    const canvas = document.getElementById('star-bg');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    // Generate stars
+    const stars = Array.from({length: 120}, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.5 + 0.5,
+      a: Math.random() * 2 * Math.PI,
+      speed: Math.random() * 0.2 + 0.05
+    }));
+
+    // Generate shooting stars (comets)
+    const shootingStars = [];
+    function spawnShootingStar() {
+      const startX = random(0, canvas.width * 0.8);
+      const startY = random(0, canvas.height * 0.3);
+      const length = random(120, 220);
+      const angle = random(Math.PI/6, Math.PI/3); // Downward angle
+      const speed = random(6, 12);
+      shootingStars.push({
+        x: startX,
+        y: startY,
+        len: length,
+        angle: angle,
+        speed: speed,
+        progress: 0,
+        alpha: 1
+      });
+    }
+    setInterval(spawnShootingStar, 1200); // spawn every ~1.2s
+
+    function drawShootingStars() {
+      for (let i = shootingStars.length - 1; i >= 0; i--) {
+        const s = shootingStars[i];
+        const dx = Math.cos(s.angle) * s.speed;
+        const dy = Math.sin(s.angle) * s.speed;
+        s.x += dx;
+        s.y += dy;
+        s.progress += s.speed;
+        s.alpha *= 0.97;
+        ctx.save();
+        ctx.globalAlpha = s.alpha;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(s.x - Math.cos(s.angle) * s.len, s.y - Math.sin(s.angle) * s.len);
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2.5;
+        ctx.shadowColor = '#ff69b4';
+        ctx.shadowBlur = 16;
+        ctx.stroke();
+        ctx.restore();
+        if (s.progress > s.len * 1.2 || s.alpha < 0.05) {
+          shootingStars.splice(i, 1);
+        }
+      }
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const s of stars) {
+        ctx.save();
+        ctx.globalAlpha = 0.7 + 0.3 * Math.sin(s.a);
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, 2 * Math.PI);
+        ctx.fillStyle = '#fff';
+        ctx.shadowColor = '#ff69b4';
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.restore();
+        s.a += s.speed * 0.5;
+      }
+      drawShootingStars();
+    }
+    setInterval(drawStars, 40);
+
+      const fan1ImgSrc = 'fan1.jpg';
+      const fan2ImgSrc = 'fan2.jpg';
+      const fan3ImgSrc = 'fan3.jpg';
+      const fan4ImgSrc = 'fan4.jpg';
+      const fan5ImgSrc = 'fan5.jpg';
+      const fanCount = 6;
+      const fanDiv = document.getElementById('fan-images');
+      fanDiv.style.position = 'absolute';
+      fanDiv.style.top = '0';
+      fanDiv.style.left = '0';
+      fanDiv.style.width = '100vw';
+      fanDiv.style.height = '100vh';
+      function animateFanFlyIn(img) {
+        // Start off-screen
+        const startX = Math.random() < 0.5 ? -120 : window.innerWidth + 120;
+        const startY = random(10, window.innerHeight - 120);
+        // End scattered position
+        const endX = random(window.innerWidth * 0.08, window.innerWidth * 0.82);
+        const endY = random(window.innerHeight * 0.08, window.innerHeight * 0.82);
+        img.style.position = 'absolute';
+        img.style.left = startX + 'px';
+        img.style.top = startY + 'px';
+        const largeSize = random(120, 160);
+        const normalSize = random(60, 90);
+        img.style.width = largeSize + 'px';
+        img.style.height = 'auto';
+        img.style.opacity = '0';
+        img.style.transition = 'none';
+        img.style.transform = `rotate(${random(-20,20)}deg)`;
+        setTimeout(() => {
+          img.style.transition = 'all 1.2s cubic-bezier(.7,-0.2,.5,1.5)';
+          img.style.left = endX + 'px';
+          img.style.top = endY + 'px';
+          img.style.opacity = '1';
+          img.style.width = normalSize + 'px';
+        }, random(100, 600));
+        // Disappear after 2.2s
+        setTimeout(() => {
+          img.style.transition = 'all 0.8s ease-in';
+          img.style.opacity = '0';
+        }, 2200);
+        // Reset and repeat
+        setTimeout(() => animateFanFlyIn(img), 3000 + random(0, 800));
+      }
+      // fan1 images
+      for(let i=0;i<fanCount;i++){
+        const img1 = document.createElement('img');
+        img1.src = fan1ImgSrc;
+        img1.className = 'fan-scatter';
+        img1.style.pointerEvents = 'none';
+        fanDiv.appendChild(img1);
+        setTimeout(() => animateFanFlyIn(img1), i*0);
+      }
+      // fan2 images
+      for(let i=0;i<fanCount;i++){
+        const img2 = document.createElement('img');
+        img2.src = fan2ImgSrc;
+        img2.className = 'fan-scatter';
+        img2.style.pointerEvents = 'none';
+        fanDiv.appendChild(img2);
+        setTimeout(() => animateFanFlyIn(img2), i*0);
+      }
+      // fan3 images
+      for(let i=0;i<fanCount;i++){
+        const img3 = document.createElement('img');
+        img3.src = fan3ImgSrc;
+        img3.className = 'fan-scatter';
+        img3.style.pointerEvents = 'none';
+        fanDiv.appendChild(img3);
+        setTimeout(() => animateFanFlyIn(img3), i*0);
+      }
+      // fan4 images
+      for(let i=0;i<fanCount;i++){
+        const img4 = document.createElement('img');
+        img4.src = fan4ImgSrc;
+        img4.className = 'fan-scatter';
+        img4.style.pointerEvents = 'none';
+        fanDiv.appendChild(img4);
+        setTimeout(() => animateFanFlyIn(img4), i*0);
+      }
+      // fan5 images
+      for(let i=0;i<fanCount;i++){
+        const img5 = document.createElement('img');
+        img5.src = fan5ImgSrc;
+        img5.className = 'fan-scatter';
+        img5.style.pointerEvents = 'none';
+        fanDiv.appendChild(img5);
+        setTimeout(() => animateFanFlyIn(img5), i*0);
+      }
+    // Animate hearts scattered and moving
+    const heartList = ['💖','💗','💓','💞','💝','💘','💟','❤️','🩷','💕'];
+    const heartCount = 8;
+    const heartsDiv = document.getElementById('hearts');
+    heartsDiv.style.position = 'absolute';
+    heartsDiv.style.top = '0';
+    heartsDiv.style.left = '0';
+    heartsDiv.style.width = '100vw';
+    heartsDiv.style.height = '100vh';
+    function random(min, max) { return Math.random() * (max - min) + min; }
+    function moveHeart(el) {
+      const x = random(5, 85); // vw
+      const y = random(5, 85); // vh
+      el.style.left = x + 'vw';
+      el.style.top = y + 'vh';
+      el.style.fontSize = random(2.5, 4.5) + 'rem';
+      el.style.transform = `rotate(${random(-30,30)}deg)`;
+      el.style.opacity = random(0.7, 1);
+    }
+    for(let i=0;i<heartCount;i++){
+      const span = document.createElement('span');
+      span.className = 'heart-scatter';
+      span.textContent = heartList[i % heartList.length];
+      span.style.position = 'absolute';
+      moveHeart(span);
+      heartsDiv.appendChild(span);
+      // Animate movement every 4-6s (slower)
+      setInterval(()=>moveHeart(span), random(4000,6000));
+    }
+
+    // Animate hearts up and down (extra effect)
+    document.querySelectorAll('.heart-scatter').forEach(function(h, i) {
+      h.animate([
+        { transform: h.style.transform },
+        { transform: h.style.transform + ' translateY(-30px)' },
+        { transform: h.style.transform }
+      ], {
+        duration: 5000 + i*500, // slower animation
+        iterations: Infinity,
+        direction: 'alternate',
+        easing: 'ease-in-out',
+        delay: i*300
+      });
+    });
+
+    // Messages to scatter
+    const msgList = [
+      'I Love You',
+      '1m Anniversary 💖',
+      '2m Anniversary 💗',
+      '3m Anniversary 💓',
+      '4m Anniversary 💞',
+      '5m Anniversary 💝',
+      '6m Anniversary 💖',
+      '7m Anniversary 💗',
+      '8m Anniversary 💓',
+      '9m Anniversary 💞',
+      '10m Anniversary 💝',
+      '11m Anniversary 💖',
+      '1y Anniversary 💗',
+      '1y 1m Anniversary 💓',
+      '1y 2m Anniversary 💞',
+      '1y 3m Anniversary 💝',
+      '1y 4m Anniversary 💖',
+      '1y 5m Anniversary 💗',
+      '1y 6m Anniversary 💓',
+      '1y 7m Anniversary 💞',
+      '1y 8m Anniversary 💝',
+      'love you every day 💖',
+      'I love you the most. 💗',
+      'Rak Mu Ouan mak mak na ka. 💗',
+      'Jub Jub 💓',
+    ];
+    const container = document.getElementById('messages');
+    container.style.position = 'absolute';
+    container.style.top = '0';
+    container.style.left = '0';
+    container.style.width = '100vw';
+    container.style.height = '100vh';
+    container.style.pointerEvents = 'none';
+    msgList.forEach((msg, i) => {
+      const div = document.createElement('div');
+      div.className = 'msg-scatter';
+      div.textContent = msg;
+      // Random position and rotation
+      const x = random(5, 80); // vw
+      const y = random(5, 80); // vh
+      const rot = random(-30, 30); // deg
+      div.style.position = 'absolute';
+      div.style.left = x + 'vw';
+      div.style.top = y + 'vh';
+      div.style.transform = `rotate(${rot}deg)`;
+      div.style.fontSize = random(1.2, 2.5) + 'rem';
+      div.style.opacity = random(0.7, 1);
+      div.style.animation = `floatText${i} 4s ease-in-out infinite alternate`;
+      // Create unique keyframes for each message
+      const styleSheet = document.styleSheets[0];
+      const floatY = random(10, 40);
+      styleSheet.insertRule(`@keyframes floatText${i} { 0% { transform: rotate(${rot}deg) translateY(0); } 100% { transform: rotate(${rot}deg) translateY(-${floatY}px); } }`, styleSheet.cssRules.length);
+      container.appendChild(div);
+    });
+  </script>
+</body>
+</html>

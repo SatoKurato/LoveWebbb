@@ -1,0 +1,111 @@
+.body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#star-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  background: #000;
+}
+.container {
+  min-height: 100vh;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', 'Noto Sans Thai', Arial, sans-serif;
+  position: relative;
+  z-index: 1;
+}
+.title {
+  margin-bottom: 16px;
+  font-size: 2rem;
+  text-align: center;
+  color: #ff69b4;
+}
+.code-circles {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.circle {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ff69b4;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 8px;
+  font-size: 1.5rem;
+  color: #ff69b4;
+  background: #222;
+  transition: border-color 0.2s;
+}
+.circle.wrong {
+  border-color: #ff3333;
+  background: #400;
+  color: #fff;
+}
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 8px;
+  width: 240px;
+  margin: 0 auto;
+}
+.key {
+  padding: 16px;
+  background: #222;
+  border: 2px solid #ff69b4;
+  border-radius: 8px;
+  color: #ff69b4;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.key:hover {
+  background: #ff69b4;
+  color: #222;
+}
+.key.zero {
+  grid-column: 2 / span 1;
+  grid-row: 4;
+  justify-self: center;
+  padding: 16px;
+  background: #222;
+  border: 2px solid #ff69b4;
+  border-radius: 8px;
+  color: #ff69b4;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.key.zero:hover {
+  background: #ff69b4;
+  color: #222;
+}
+.key.del {
+  grid-column: 3 / span 1;
+  grid-row: 4;
+  background: #ff69b4;
+  color: #fff;
+  border: 2px solid #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0 0 8px #ff69b4;
+  transition: background 0.2s, color 0.2s;
+}
+.key.del:hover {
+  background: #fff;
+  color: #ff69b4;
+  border: 2px solid #ff69b4;
+}

@@ -1,0 +1,57 @@
+body {
+  background: #fff0f6;
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', 'Prompt', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.letter-container {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 4px 24px #f8bbd0;
+  padding: 32px 18px 24px 18px;
+  max-width: 340px;
+  width: 96vw;
+  text-align: center;
+}
+.hearts-row {
+  margin-bottom: 12px;
+  font-size: 1.5rem;
+  color: #ff69b4;
+}
+.letter-img {
+  width: 220px;
+  max-width: 80vw;
+  margin: 24px auto 0;
+  display: block;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px #f8bbd0;
+}
+.letter-msg {
+  margin: 18px 0 8px;
+  color: #d14;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.open-btn {
+  display: block;
+  margin: 0 auto 0;
+  padding: 12px 32px;
+  background: #ffb6c1;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px #f8bbd0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.open-btn:hover {
+  background: #ff69b4;
+}
+@media (max-width: 400px) {
+  .letter-container { padding: 18px 4vw 18px 4vw; }
+  .letter-img { width: 90vw; }
+}
