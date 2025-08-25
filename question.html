@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>รักเค้าไหม?</title>
+	<link rel="stylesheet" href="question.css">
+</head>
+<body class="question-bg">
+	<div class="question-card">
+		<h2 class="question-title">รักเค้าไหม? <span class="heart">💖</span></h2>
+		<div class="cat-img">
+			<img src="love.jpg" alt="cat" id="catImg" />
+		</div>
+		<div class="question-btns">
+			<button id="yesBtn" class="yes-btn" onclick="window.location.href='password.html'">Yes <span>💕</span></button>
+			<button id="noBtn" class="no-btn">No <span>🥺</span></button>
+		</div>
+	</div>
+	<script>
+		const yesBtn = document.getElementById('yesBtn');
+		const noBtn = document.getElementById('noBtn');
+		let yesScale = 1;
+		let noScale = 1;
+		const catImages = ['cry.png', 'cryy.jpg', 'cryyy.jpg', 'cryyyy.jpg', 'cryyyyy.jpg', 'cryyyyyy.jpg', 'cryyyyyyy.jpg'];
+		let catIndex = 0;
+		let pressedNo = false;
+		noBtn.addEventListener('click', function() {
+			if (noScale > 0.5) {
+				noScale -= 0.1;
+				yesScale += 0.15;
+				noBtn.style.transform = `scale(${noScale})`;
+				yesBtn.style.transform = `scale(${yesScale})`;
+				// เปลี่ยนรูปแมวตามลำดับ
+				const catImg = document.getElementById('catImg');
+				catImg.src = catImages[catIndex];
+				catIndex = (catIndex + 1) % catImages.length;
+				pressedNo = true;
+			}
+		});
+		yesBtn.addEventListener('click', function() {
+			alert('เค้าก็รักเทอเหมือนกานน้าา😍💓💖');
+			// เปลี่ยนรูปแมวเมื่อกด Yes
+			const catImg = document.getElementById('catImg');
+			if (pressedNo) {
+				catImg.src = 'over.jpg';
+				pressedNo = false;
+			} else {
+				catImg.src = 'love.jpg';
+			}
+		});
+	</script>
+</body>
+</html>
