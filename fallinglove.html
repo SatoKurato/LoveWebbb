@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Falling Love</title>
+    <link rel="stylesheet" href="fallinglove.css">
+</head>
+<body class="fallinglove-bg">
+    <canvas id="starCanvas"></canvas>
+    <div id="fallingContainer"></div>
+    <script>
+    // ดาวและดาวหาง
+    const starCanvas = document.getElementById('starCanvas');
+    starCanvas.width = window.innerWidth;
+    starCanvas.height = window.innerHeight;
+    const ctx = starCanvas.getContext('2d');
+    function drawStars() {
+        ctx.clearRect(0,0,starCanvas.width,starCanvas.height);
+        // ดาว
+        for(let i=0;i<120;i++){
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(Math.random()*starCanvas.width, Math.random()*starCanvas.height, Math.random()*1.2+0.5, 0, Math.PI*2);
+            ctx.fillStyle = '#fff';
+            ctx.globalAlpha = Math.random()*0.7+0.3;
+            ctx.shadowColor = '#fff';
+            ctx.shadowBlur = 8;
+            ctx.fill();
+            ctx.restore();
+        }
+        // ดาวหาง (เพิ่มจำนวนและความถี่)
+        for(let i=0;i<16;i++){
+            let x = Math.random()*starCanvas.width;
+            let y = Math.random()*starCanvas.height*0.7;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x+60, y+20);
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2.5;
+            ctx.globalAlpha = 0.5;
+            ctx.shadowColor = '#fff';
+            ctx.shadowBlur = 12;
+            ctx.stroke();
+            ctx.restore();
+        }
+    }
+    drawStars();
+    setInterval(drawStars, 1200);
+
+    // ข้อความ หัวใจ และรูปภาพหล่นลงมา
+    const fallingContainer = document.getElementById('fallingContainer');
+    const texts = [
+        'I Love You', 'You make my heart smile', 'Honey bunch, you are my everything!', 'Thank you for being my everything', '01/01/2567', 'Our Anniversary', 'You are my universe', 'Love Na!', 'Thank you for being my sunshine', 'I love you so much!', 'I Love You', '1m Anniversary 💖', '2m Anniversary 💗', '3m Anniversary 💓', '4m Anniversary 💞', '5m Anniversary 💝', '6m Anniversary 💖', '7m Anniversary 💗', '8m Anniversary 💓', '9m Anniversary 💞', '10m Anniversary 💝', '11m Anniversary 💖', '1y Anniversary 💗', '1y 1m Anniversary 💓', '1y 2m Anniversary 💞', '1y 3m Anniversary 💝', '1y 4m Anniversary 💖', '1y 5m Anniversary 💗', '1y 6m Anniversary 💓', '1y 7m Anniversary 💞', '1y 8m Anniversary 💝', 'love you every day 💖', 'I love you the most. 💗', 'Rak Mu Ouan mak mak na ka. 💗', 'Jub Jub 💓'
+    ];
+    const images = ['fan1.jpg','fan2.jpg','fan3.jpg','fan4.jpg','fan5.jpg','fan6.jpg','fan7.jpg',];
+    function createFallingItem() {
+        const type = Math.random();
+        let el;
+        if(type < 0.5) {
+            // ข้อความ + หัวใจ
+            el = document.createElement('div');
+            el.className = 'falling-text';
+            el.innerHTML = texts[Math.floor(Math.random()*texts.length)] + ' <span class="falling-heart">❤️</span>';
+        } else {
+            // รูปภาพ
+            el = document.createElement('img');
+            el.className = 'falling-img';
+            el.src = images[Math.floor(Math.random()*images.length)];
+        }
+        el.style.left = Math.random()*90 + 'vw';
+        el.style.animationDuration = (Math.random()*2+3)+'s';
+        fallingContainer.appendChild(el);
+        // ลบเมื่อจบ animation
+        el.addEventListener('animationend', ()=>el.remove());
+    }
+    setInterval(createFallingItem, 300);
+    </script>
+</body>
+</html>
